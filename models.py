@@ -34,16 +34,8 @@ class Employee(Base):
     department_id = Column(Integer, ForeignKey('department.id'))
     role_id = Column(Integer, ForeignKey('roles.id'))
 
-    department = relationship(
-        Department,
-        backref=backref('employees',
-                        uselist=True,
-                        cascade='delete,all'))
-    role = relationship(
-        Role,
-        backref=backref('roles',
-                        uselist=True,
-                        cascade='delete,all'))
+    department = relationship(Department, foreign_keys=[department_id])
+    role = relationship(Role, foreign_keys=[role_id])
 
 
 class Form(Base):
@@ -54,6 +46,7 @@ class Form(Base):
     statement = Column(String)
     created_by_id = Column(Integer, ForeignKey('employee.id'))
     against_id = Column(Integer, ForeignKey('employee.id'))
+    
     created_by = relationship(Employee, foreign_keys=[created_by_id])
     against = relationship(Employee, foreign_keys=[against_id])
 

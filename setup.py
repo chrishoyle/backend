@@ -1,7 +1,7 @@
 from models import engine, db_session, Base, Department, Employee, Role, Form
 
 Base.metadata.create_all(bind=engine)
-# Dummy data
+
 # Departments 
 engineering = Department(name='Engineering')
 hr = Department(name='Human Resources')

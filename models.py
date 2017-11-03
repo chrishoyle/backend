@@ -3,7 +3,7 @@ from sqlalchemy.orm import (scoped_session, sessionmaker, relationship,
                             backref)
 from sqlalchemy.ext.declarative import declarative_base
 
-engine = create_engine('sqlite:///database.sqlite3', convert_unicode=True)
+engine = create_engine('sqlite:///db.sqlite3', convert_unicode=True)
 db_session = scoped_session(sessionmaker(autocommit=False,
                                          autoflush=False,
                                          bind=engine))
@@ -46,7 +46,7 @@ class Form(Base):
     statement = Column(String)
     created_by_id = Column(Integer, ForeignKey('employee.id'))
     against_id = Column(Integer, ForeignKey('employee.id'))
-    
+
     created_by = relationship(Employee, foreign_keys=[created_by_id])
     against = relationship(Employee, foreign_keys=[against_id])
 

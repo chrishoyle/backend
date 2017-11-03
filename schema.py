@@ -4,6 +4,7 @@ from graphene_sqlalchemy import SQLAlchemyConnectionField, SQLAlchemyObjectType
 from models import Department as DepartmentModel
 from models import Employee as EmployeeModel
 from models import Role as RoleModel
+from models import Form as FormModel
 
 
 class Department(SQLAlchemyObjectType):
@@ -26,6 +27,12 @@ class Role(SQLAlchemyObjectType):
         model = RoleModel
         interfaces = (relay.Node, )
 
+class Form(SQLAlchemyObjectType):
+
+    class Meta:
+        model = FormModel
+        interfaces = (relay.Node, )
+
 
 class Query(graphene.ObjectType):
     node = relay.Node.Field()
@@ -34,4 +41,4 @@ class Query(graphene.ObjectType):
     role = graphene.Field(Role)
 
 
-schema = graphene.Schema(query=Query, types=[Department, Employee, Role])
+schema = graphene.Schema(query=Query, types=[Department, Employee, Role, Form])

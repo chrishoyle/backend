@@ -11,28 +11,28 @@ db_session = scoped_session(sessionmaker(autocommit=False,
 Base = declarative_base()
 Base.query = db_session.query_property()
 
-
-
 class Department(Base):
     __tablename__ = 'department'
     id = Column(Integer, primary_key=True)
-    name = Column(String)
 
+    name = Column(String)
 
 class Role(Base):
     __tablename__ = 'roles'
-    role_id = Column(Integer, primary_key=True)
+    id = Column(Integer, primary_key=True)
+
     name = Column(String)
 
 
 class Employee(Base):
     __tablename__ = 'employee'
     id = Column(Integer, primary_key=True)
-    name = Column(String)
 
+    name = Column(String)
     hired_on = Column(DateTime, default=func.now())
+    sex = Column(String)
     department_id = Column(Integer, ForeignKey('department.id'))
-    role_id = Column(Integer, ForeignKey('roles.role_id'))
+    role_id = Column(Integer, ForeignKey('roles.id'))
 
     department = relationship(
         Department,
@@ -44,3 +44,18 @@ class Employee(Base):
         backref=backref('roles',
                         uselist=True,
                         cascade='delete,all'))
+
+
+class Form(Base):
+    __tablename__ = 'form'
+    id = Column(Integer, primary_key=True)
+
+    anonymous = Column(String)
+    statement = Column(String)
+    created_by_id = Column(Integer, ForeignKey('employee.id'))
+    against_id = Column(Integer, ForeignKey('employee.id'))
+    created_by = relationship(Employee, foreign_keys=[created_by_id])
+    against = relationship(Employee, foreign_keys=[against_id])
+
+
+

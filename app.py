@@ -3,6 +3,7 @@ from flask_graphql import GraphQLView
 
 from models import db_session
 from schema import schema, Department
+from auth import identity, authenticate
 
 app = Flask(__name__)
 app.debug = True

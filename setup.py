@@ -41,9 +41,9 @@ db_session.add(roy)
 db_session.add(tracy)
 
 # Forms
-form1 = Form(anonymous='True', statement='Example statement', created_by=peter, against=roy)
-form2 = Form(anonymous='True', statement='Example statement', created_by=roy, against=peter)
-form3 = Form(anonymous='True', statement='Example statement', created_by=tracy, against=roy)
+form1 = Form(anonymous=True, statement='Example statement', created_by=peter, against=roy)
+form2 = Form(anonymous=True, statement='Example statement', created_by=roy, against=peter)
+form3 = Form(anonymous=True, statement='Example statement', created_by=tracy, against=roy)
 
 db_session.add(form1)
 db_session.add(form2)

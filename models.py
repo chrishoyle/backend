@@ -42,7 +42,7 @@ class Form(Base):
     __tablename__ = 'form'
     id = Column(Integer, primary_key=True)
 
-    anonymous = Column(String)
+    anonymous = Column(Boolean)
     statement = Column(String)
     created_by_id = Column(Integer, ForeignKey('employee.id'))
     against_id = Column(Integer, ForeignKey('employee.id'))

@@ -38,6 +38,7 @@ class Query(graphene.ObjectType):
     node = relay.Node.Field()
     all_employees = SQLAlchemyConnectionField(Employee)
     all_roles = SQLAlchemyConnectionField(Role)
+    all_forms = SQLAlchemyConnectionField(Form) 
     role = graphene.Field(Role)
 
 

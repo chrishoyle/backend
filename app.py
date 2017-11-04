@@ -66,8 +66,12 @@ def get_department_id_count(id):
 
 	data = {}
 
-	count = db_session.query(Form).filter(Form.against_id==2).count()
-	data[id] = count
+	count = db_session.query(Form).filter(Form.against_id==id).count()
+
+	department = Department.query.get(id)
+	department_name = department.name
+
+	data[department_name] = count
 
 	return jsonify(data)
 
@@ -83,15 +87,20 @@ def get_department_count():
     for employee in all_employees:
     	against_count = db_session.query(Form).filter(Form.against_id==employee.id).count()
     	created_count = db_session.query(Form).filter(Form.created_by_id==employee.id).count()
-    	data[employee.department_id] = {}
-    	if 'against' in data[employee.department_id]:
-    		data[employee.department_id]['against'] += against_count
+
+    	department = Department.query.get(employee.department_id)
+
+    	department_name = department.name
+
+    	data[department_name] = {}
+    	if 'against' in data[department_name]:
+    		data[department_name]['against'] += against_count
     	else:
-    		data[employee.department_id]['against'] = against_count
-    	if 'created' in data[employee.department_id]:
-    		data[employee.department_id]['created'] += created_count
+    		data[department_name]['against'] = against_count
+    	if 'created' in data[department_name]:
+    		data[department_name]['created'] += created_count
     	else:
-    		data[employee.department_id]['created'] = created_count		
+    		data[department_name]['created'] = created_count		
 
     return jsonify(data)
 

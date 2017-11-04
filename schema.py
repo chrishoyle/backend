@@ -1,45 +1,31 @@
-import graphene
-from graphene import relay
-from graphene_sqlalchemy import SQLAlchemyConnectionField, SQLAlchemyObjectType
+from marshmallow_sqlalchemy import ModelSchema
 from models import Department as DepartmentModel
 from models import Employee as EmployeeModel
 from models import Role as RoleModel
 from models import Form as FormModel
 
 
-class Department(SQLAlchemyObjectType):
-
+class DepartmentSchema(ModelSchema):
     class Meta:
+
         model = DepartmentModel
-        interfaces = (relay.Node, )
 
-
-class Employee(SQLAlchemyObjectType):
-
+class EmployeeSchema(ModelSchema):
     class Meta:
         model = EmployeeModel
-        interfaces = (relay.Node, )
 
-
-class Role(SQLAlchemyObjectType):
-
+class RoleSchema(ModelSchema):
     class Meta:
         model = RoleModel
-        interfaces = (relay.Node, )
 
-class Form(SQLAlchemyObjectType):
-
+class FormSchema(ModelSchema):
     class Meta:
         model = FormModel
-        interfaces = (relay.Node, )
 
-
-class Query(graphene.ObjectType):
-    node = relay.Node.Field()
-    all_employees = SQLAlchemyConnectionField(Employee)
-    all_roles = SQLAlchemyConnectionField(Role)
-    all_forms = SQLAlchemyConnectionField(Form) 
-    role = graphene.Field(Role)
-
-
-schema = graphene.Schema(query=Query, types=[Department, Employee, Role, Form])
+department_schema = DepartmentSchema()
+departments_schema = DepartmentSchema(many=True)
+employee_schema = EmployeeSchema(many=True)
+employees_schema = EmployeeSchema(many=True)
+roles_schema = RoleSchema(many=True)
+form_schema = FormSchema()
+forms_schema = FormSchema(many=True)

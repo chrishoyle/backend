@@ -25,6 +25,8 @@ class Role(Base):
 
 
 class Employee(Base):
+    def as_dict(self):
+       return {c.name: getattr(self, c.name) for c in self.__table__.columns}
     __tablename__ = 'employee'
     id = Column(Integer, primary_key=True)
 

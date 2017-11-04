@@ -24,7 +24,7 @@ class FormSchema(ModelSchema):
 
 department_schema = DepartmentSchema()
 departments_schema = DepartmentSchema(many=True)
-employee_schema = EmployeeSchema(many=True)
+employee_schema = EmployeeSchema()
 employees_schema = EmployeeSchema(many=True)
 roles_schema = RoleSchema(many=True)
 form_schema = FormSchema()

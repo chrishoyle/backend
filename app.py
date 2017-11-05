@@ -66,11 +66,13 @@ def get_form_department():
 		employee_against = Employee.query.get(form.against_id)
 		department_against_id = employee_against.department_id
 		department_against_name = Department.query.get(department_against_id)
+		data[form.id]['sex_against'] = employee_against.sex
 		data[form.id]['department_against'] = department_against_name.name
 
 		employee_created = Employee.query.get(form.created_by_id)
 		department_created_id = employee_created.department_id
 		department_created_name = Department.query.get(department_created_id)
+		data[form.id]['sex_created'] = employee_created.sex
 		data[form.id]['department_created_by'] = department_created_name.name
 
 	return jsonify(data)
@@ -227,9 +229,9 @@ def get_forms_employees():
 	for employee in all_employees:
 		against = db_session.query(Form).filter(Form.against_id==employee.id).count()
 		created_by = db_session.query(Form).filter(Form.created_by_id==employee.id).count()
-		data[employee.id] = {}
-		data[employee.id]['against'] = against
-		data[employee.id]['created'] = created_by
+		data[employee.name] = {}
+		data[employee.name]['against'] = against
+		data[employee.name]['created'] = created_by
 		
 	return jsonify(data)
 

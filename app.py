@@ -1,4 +1,5 @@
 from flask import Flask, request, jsonify
+from flask_cors import CORS
 from sqlalchemy import func
 from collections import Counter
 from random import *
@@ -6,6 +7,7 @@ from models import *
 from schema import *
 
 app = Flask(__name__)
+CORS(app)
 app.debug = True
 
 @app.teardown_appcontext
@@ -17,7 +19,7 @@ def shutdown_session(exception=None):
 def submit_form():
   anonymous = request.form['anonymous']
   statement = request.form['statement']
-  created_by_id = randint(1, 20) 	# simulate a logged in id 
+  created_by_id = randint(1, 20) 	# simulate a logged in id
   against_id = request.form['against_id']
   form = Form(anonymous = anonymous, statement = statement, created_by_id = created_by_id, against_id =against_id)
   db.session.add(form)
@@ -31,14 +33,14 @@ def get_employees():
 
     return jsonify(result.data)
 
-# employee by id 
+# employee by id
 @app.route('/api/employee/<id>')
 def get_employee(id):
     employee = Employee.query.get(id)
     result = employee_schema.dump(employee)
 
     return jsonify(result.data)
-  
+
 # all forms
 @app.route("/api/forms", methods=["GET"])
 def get_forms():
@@ -151,7 +153,7 @@ def get_department_id_count(id):
 
 	return jsonify(data)
 
-# all departments form count (against and created) 
+# all departments form count (against and created)
 @app.route("/api/department/forms", methods=["GET"])
 def get_department_count():
 
@@ -174,11 +176,11 @@ def get_department_count():
 
     	data[department.name]['against'] += against_count
     	data[department.name]['created'] += created_count
-	
+
 
     return jsonify(data)
 
-# all roles form count (against and created) 
+# all roles form count (against and created)
 @app.route("/api/role/forms", methods=["GET"])
 def get_role_count():
 
@@ -196,12 +198,12 @@ def get_role_count():
     for employee in all_employees:
     	against_count = db_session.query(Form).filter(Form.against_id==employee.id).count()
     	created_count = db_session.query(Form).filter(Form.created_by_id==employee.id).count()
-    	
+
     	role = role.query.get(employee.role_id)
 
     	data[role.name]['against'] += against_count
     	data[role.name]['created'] += created_count
-	
+
 
     return jsonify(data)
 
@@ -233,9 +235,10 @@ def get_forms_employees():
 		data[employee.name]['against'] = against
 		data[employee.name]['created'] = created_by
 		
+
 	return jsonify(data)
 
 
 if __name__ == '__main__':
     app.run()
-    
+
